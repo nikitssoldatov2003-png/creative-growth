@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#294b3a">
+<meta name="description" content="Dein persönlicher Lern- und Kreativplaner.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>creative growth</title>
+<style>
+:root{--ink:#20372b;--muted:#6f7b70;--paper:#f7f6ef;--card:#fffef9;--green:#294b3a;--green2:#dce7d8;--line:#e7e8de;--coral:#d98f78;--yellow:#f2df9a;--radius:22px}
+*{box-sizing:border-box}html{background:var(--paper)}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--paper);min-height:100vh}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:1100px;margin:0 auto;padding:20px 18px 100px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0 24px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.04em;font-size:20px}.mark{display:grid;place-items:center;width:38px;height:38px;border-radius:14px;background:var(--green);color:white;font-size:20px}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);font-weight:800}
+.header-note{font-size:12px;color:var(--muted);text-align:right}
+.hero{background:var(--green);color:#fffef7;border-radius:28px;padding:27px;position:relative;overflow:hidden}
+.hero:after{content:"✳";position:absolute;right:20px;top:-34px;font-size:150px;color:#ffffff12;transform:rotate(15deg)}
+.hero h1{font-size:clamp(29px,5vw,44px);line-height:1.04;letter-spacing:-.055em;margin:12px 0 12px;max-width:620px}
+.hero p{color:#d7e1d5;max-width:540px;line-height:1.55;margin:0 0 20px}
+.hero-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.primary,.secondary,.ghost{border:0;border-radius:13px;padding:12px 16px;font-weight:750}
+.primary{background:var(--yellow);color:var(--ink)}.secondary{background:var(--green2);color:var(--green)}.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.hero .ghost{border-color:#ffffff55;color:white}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0 24px}
+.stat,.panel,.task-card,.path-card,.project-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.stat strong{display:block;font-size:26px;letter-spacing:-.04em;margin:5px 0}.stat span{font-size:12px;color:var(--muted)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:25px 0 12px}.section-head h2{margin:4px 0 0;font-size:23px;letter-spacing:-.04em}.section-head p{margin:0;color:var(--muted);font-size:13px}
+.grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.stack{display:grid;gap:10px}
+.task-card{display:flex;align-items:flex-start;gap:12px;padding:14px}.check{appearance:none;flex:0 0 23px;width:23px;height:23px;border:1.5px solid #b8c5b5;border-radius:8px;margin:1px 0 0;display:grid;place-items:center}
+.check:checked{background:var(--green);border-color:var(--green)}.check:checked:after{content:"✓";color:white;font-weight:900;font-size:14px}
+.task-main{flex:1;min-width:0}.task-title{font-weight:750;line-height:1.3}.task-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px;color:var(--muted);font-size:11px}
+.tag{display:inline-flex;align-items:center;padding:5px 8px;border-radius:8px;background:#f0f1e8;color:#566757;font-weight:700;font-size:11px}
+.done .task-title{text-decoration:line-through;color:#879188}.delete{border:0;background:transparent;color:#8b968b;padding:3px;font-size:18px}
+.panel h3{margin:0 0 6px;font-size:17px}.panel p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.progress-track{height:8px;background:#e9ece3;border-radius:20px;overflow:hidden;margin:13px 0 8px}.progress-fill{height:100%;background:var(--green);width:0;transition:width .2s}
+.nav{display:flex;gap:7px;overflow:auto;padding:5px 0 12px;position:sticky;top:0;background:var(--paper);z-index:5}
+.nav button{white-space:nowrap;border:1px solid var(--line);background:#fbfaf4;color:var(--muted);padding:10px 13px;border-radius:13px;font-size:13px;font-weight:750}
+.nav button.active{background:var(--green);color:white;border-color:var(--green)}
+.view{display:none}.view.active{display:block}
+.formrow{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.field{width:100%;border:1px solid var(--line);background:#fffef9;border-radius:12px;padding:12px;color:var(--ink);outline-color:#8aa48e}
+.formrow .field{flex:1;min-width:120px}.formrow select{max-width:150px}
+.path-card{display:flex;gap:14px;align-items:flex-start}.path-icon{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:var(--green2);font-size:22px;flex-shrink:0}
+.path-card h3{margin:1px 0 5px}.path-card p{font-size:13px;color:var(--muted);margin:0 0 10px;line-height:1.5}.path-card .path-content{flex:1}
+.path-goals{display:grid;gap:9px;margin-top:12px}.goal{display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.4}
+.weekdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin:12px 0}.day{border:1px solid var(--line);border-radius:13px;padding:10px 3px;text-align:center;background:#fffef9;color:var(--muted);font-size:12px}.day b{display:block;font-size:15px;color:var(--ink);margin-bottom:4px}.day.active{background:var(--green);border-color:var(--green);color:white}.day.active b{color:white}
+.daylist{min-height:130px}.empty{padding:25px;text-align:center;color:var(--muted);font-size:13px;border:1px dashed #d8ddd2;border-radius:16px}
+.habit-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.habit-row:last-child{border-bottom:0}.habit-row span{flex:1;font-size:14px}.habit-row input{accent-color:var(--green);width:18px;height:18px}
+textarea.field{resize:vertical;min-height:110px;line-height:1.5}
+footer{text-align:center;color:var(--muted);font-size:11px;margin:32px 0 0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;border-radius:14px;padding:12px 16px;font-size:13px;box-shadow:0 8px 30px #0002;display:none;z-index:20;max-width:90vw}
+@media(max-width:720px){.app{padding:12px 12px 90px}header{padding:5px 0 17px}.header-note{display:none}.hero{padding:23px 20px;border-radius:23px}.hero:after{right:-10px;top:-15px;font-size:110px}.stats{gap:8px;margin:10px 0 20px}.stat{padding:13px 12px;border-radius:17px}.stat strong{font-size:22px}.stat span{font-size:10px}.grid2{grid-template-columns:1fr}.section-head{margin-top:22px}.weekdays{gap:4px}.day{padding:9px 1px;font-size:10px}.day b{font-size:13px}.nav{margin:0 -12px;padding:8px 12px 12px}.nav button{padding:10px 12px}.formrow .field{min-width:100%}.formrow select{max-width:none}.path-card{padding:14px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><span class="mark">✳</span><span>creative growth</span></div>
+  <div class="header-note">DEIN RAUM ZUM LERNEN<br>UND AUSPROBIEREN</div>
+</header>
+<section class="hero">
+  <div class="eyebrow" style="color:#c4d7c3">Dein persönlicher Kreativplaner</div>
+  <h1>Weniger scrollen.<br>Mehr ausprobieren.</h1>
+  <p>Ein kleiner Schritt nach dem anderen. Baue Fähigkeiten auf, entwickle eigene Projekte und lass genug Raum für das echte Leben.</p>
+  <div class="hero-row"><button class="primary" id="focusBtn">＋ Fokus starten</button><button class="ghost" id="addTaskTop">Aufgabe hinzufügen</button></div>
+</section>
+<div class="stats">
+  <div class="stat"><span>Diese Woche erledigt</span><strong id="doneCount">0</strong><span>kleine Schritte zählen</span></div>
+  <div class="stat"><span>Lernzeit gesammelt</span><strong id="minutesCount">0 min</strong><span>geschätzte Zeit</span></div>
+  <div class="stat"><span>Wochenfortschritt</span><strong id="percentCount">0%</strong><span>dein Tempo, dein Weg</span></div>
+</div>
+<nav class="nav" aria-label="Hauptnavigation">
+<button class="active" data-view="home">Übersicht</button><button data-view="tasks">Aufgaben</button><button data-view="week">Wochenplan</button><button data-view="learn">Lernpfade</button><button data-view="project">Projekt</button><button data-view="progress">Rückblick</button>
+</nav>
+<main>
+<section class="view active" id="view-home">
+  <div class="section-head"><div><div class="eyebrow">Dein nächster Schritt</div><h2>Mach es machbar.</h2></div><p id="todayLabel"></p></div>
+  <div class="grid2">
+    <div class="stack" id="homeTasks"></div>
+    <div class="stack">
+      <div class="panel"><div class="eyebrow">Wochenfokus</div><h3 id="focusDisplay">Einen Hocker skizzieren</h3><p>Ein konkretes Ziel hilft dir, deine Energie zu bündeln – ohne den ganzen Tag durchzuplanen.</p><button class="secondary" style="margin-top:13px" id="editFocus">Fokus ändern</button></div>
+      <div class="panel"><div class="eyebrow">Deine Regel</div><h3>20 Minuten reichen.</h3><p>Du musst nicht auf Motivation warten. Fang klein an, mach etwas sichtbar und hör auf, bevor es sich nach Pflicht anfühlt.</p></div>
+    </div>
+  </div>
+</section>
+<section class="view" id="view-tasks">
+  <div class="section-head"><div><div class="eyebrow">Kleine Schritte</div><h2>Deine Aufgaben</h2></div><p>Flexibel statt perfekt.</p></div>
+  <div class="panel">
+    <form id="taskForm"><div class="formrow"><input class="field" id="taskName" placeholder="Was möchtest du machen?" required maxlength="100"><select class="field" id="taskArea"><option>Zeichnen</option><option>Tischlerhandwerk</option><option>Design</option><option>Software</option><option>Kunst</option><option>Englisch</option><option>Bewegung</option><option>Alltag</option></select></div>
+    <div class="formrow"><select class="field" id="taskDay"><option value="Mo">Montag</option><option value="Di">Dienstag</option><option value="Mi" selected>Mittwoch</option><option value="Do">Donnerstag</option><option value="Fr">Freitag</option><option value="Sa">Samstag</option><option value="So">Sonntag</option><option value="Flexibel">Flexibel</option></select><input class="field" id="taskMinutes" type="number" min="5" max="240" value="30" aria-label="Minuten"><button class="primary" type="submit">＋ Hinzufügen</button></div></form>
+  </div>
+  <div class="section-head"><div><h2>Alle Aufgaben</h2></div><p id="taskCountLabel"></p></div><div class="stack" id="allTasks"></div>
+</section>
+<section class="view" id="view-week">
+  <div class="section-head"><div><div class="eyebrow">Woche für Woche</div><h2>Dein flexibler Plan</h2></div></div>
+  <div class="panel"><p>Wähle einen Tag, um deine Aufgaben zu sehen. Du kannst jederzeit Dinge verschieben oder auf „Flexibel“ setzen.</p><div class="weekdays" id="weekdays"></div><div class="daylist stack" id="dayTasks"></div></div>
+  <div class="panel" style="margin-top:12px"><div class="eyebrow">Wochenschwerpunkt</div><div class="formrow"><input class="field" id="focusInput" value="Einen Hocker skizzieren" maxlength="100"><button class="secondary" id="saveFocus">Speichern</button></div></div>
+</section>
+<section class="view" id="view-learn">
+  <div class="section-head"><div><div class="eyebrow">Langfristig wachsen</div><h2>Deine Lernpfade</h2></div><p>Ohne Eile.</p></div>
+  <div class="stack" id="learningPaths"></div>
+</section>
+<section class="view" id="view-project">
+  <div class="section-head"><div><div class="eyebrow">Etwas Eigenes erschaffen</div><h2>Mein Möbel-Design-Portfolio</h2></div></div>
+  <div class="project-card">
+    <div class="path-icon" style="margin-bottom:14px">🪑</div><h3 style="margin:0 0 6px">Vom ersten Entwurf zum greifbaren Objekt</h3><p style="color:var(--muted);line-height:1.5">Ein kleines, abgeschlossenes Projekt ist besser als zehn angefangene. Sammle Referenzen, skizziere Varianten und entwickle daraus ein Objekt.</p>
+    <label class="eyebrow" for="projectStage" style="display:block;margin-top:18px">Aktuelle Phase</label><select class="field" id="projectStage" style="margin-top:7px"><option>1. Inspiration sammeln</option><option>2. Formen skizzieren</option><option>3. Maße und Konstruktion überlegen</option><option>4. Digitales oder analoges Modell</option><option>5. Feedback einholen</option><option>6. Überarbeiten und dokumentieren</option><option>7. Bauen oder Prototyp testen</option></select>
+    <label class="eyebrow" for="projectNotes" style="display:block;margin-top:18px">Ideen und Notizen</label><textarea class="field" id="projectNotes" placeholder="Was interessiert dich? Welche Form, welches Material, welche Funktion?"></textarea>
+    <div class="hero-row" style="margin-top:12px"><button class="primary" id="saveProject">Projekt speichern</button><span id="projectSaved" style="font-size:12px;color:var(--muted)"></span></div>
+  </div>
+</section>
+<section class="view" id="view-progress">
+  <div class="section-head"><div><div class="eyebrow">Nicht perfekt – nur bewusst</div><h2>Dein Wochenrückblick</h2></div></div>
+  <div class="grid2"><div class="panel"><h3>Deine kleinen Erfolge</h3><p>Markiere, was du diese Woche in deinen Alltag bringen möchtest.</p><div id="habits" style="margin-top:10px"></div></div>
+  <div class="panel"><h3>Reflexion</h3><p>Was hat funktioniert? Was hat Energie gegeben? Was möchtest du nächste Woche anders machen?</p><textarea class="field" id="reflection" placeholder="Diese Woche habe ich …" style="margin-top:13px"></textarea><button class="secondary" id="saveReflection" style="margin-top:10px">Rückblick speichern</button><button class="ghost" id="copyReflection" style="margin:10px 0 0 5px">Text kopieren</button><div id="reflectionStatus" style="font-size:12px;color:var(--muted);margin-top:8px"></div></div></div>
+  <div class="panel" style="margin-top:14px"><h3>Dein Fortschritt</h3><div class="progress-track"><div class="progress-fill" id="bigProgress"></div></div><p id="progressText"></p><button class="ghost" id="exportData" style="margin-top:12px">Meine Daten exportieren</button></div>
+</section>
+</main>
+<footer>Dein Tempo zählt. Diese App speichert deine Daten lokal auf diesem Gerät.</footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const defaults = {
+ tasks:[
+  {id:1,title:"30 Minuten Perspektivzeichnen",area:"Zeichnen",day:"Mi",minutes:30,done:false},
+  {id:2,title:"Drei Möbel-Referenzen sammeln",area:"Design",day:"Mi",minutes:20,done:false},
+  {id:3,title:"Englisch üben",area:"Englisch",day:"Do",minutes:15,done:false},
+  {id:4,title:"Tanzkurs auswählen",area:"Bewegung",day:"Do",minutes:15,done:false},
+  {id:5,title:"Kunstbuch lesen",area:"Kunst",day:"Fr",minutes:25,done:false}
+ ],
+ focus:"Einen Hocker skizzieren",selectedDay:"Mi",projectStage:"1. Inspiration sammeln",projectNotes:"",
+ habits:[false,false,false,false],reflection:"",
+ paths:[
+  {id:"draw",icon:"✏️",title:"Zeichnen & Möbelgestaltung",desc:"Von einfachen Formen und Perspektive zu eigenen Möbelentwürfen.",goals:["Grundformen und Proportionen üben","Perspektive verstehen und anwenden","Ein Möbelstück aus mehreren Blickwinkeln skizzieren"],done:[false,false,false]},
+  {id:"software",icon:"🧊",title:"3D-Software entdecken",desc:"Werkzeuge kennenlernen und ein erstes einfaches Modell erstellen.",goals:["Zwei Programme vergleichen","Einsteiger-Tutorial ausprobieren","Ein einfaches Objekt modellieren"],done:[false,false,false]},
+  {id:"art",icon:"🖼️",title:"Kunst & Designgeschichte",desc:"Stile, Designer und Möbel entdecken – und eigene Referenzen sammeln.",goals:["Ein Designobjekt genauer betrachten","Einen Designer kennenlernen","Eine kleine Inspirationssammlung erstellen"],done:[false,false,false]},
+  {id:"english",icon:"🌱",title:"Englisch verbessern",desc:"Mit kleinen, regelmäßigen Einheiten sicherer werden.",goals:["15 Minuten hören oder lesen","Neue Wörter aktiv verwenden","Ein Thema laut zusammenfassen"],done:[false,false,false]}
+ ]
+};
+let state;
+try { state = JSON.parse(localStorage.getItem("creativeGrowthData")) || structuredClone(defaults); } catch(e) { state = JSON.parse(JSON.stringify(defaults)); }
+function save(){localStorage.setItem("creativeGrowthData",JSON.stringify(state));renderStats();}
+function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.style.display="block";setTimeout(()=>el.style.display="none",2200)}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+const days=[["Mo","Mo"],["Di","Di"],["Mi","Mi"],["Do","Do"],["Fr","Fr"],["Sa","Sa"],["So","So"]];
+function taskHTML(t){return `<div class="task-card ${t.done?"done":""}"><input class="check" type="checkbox" ${t.done?"checked":""} aria-label="Aufgabe erledigt" onchange="toggleTask(${t.id})"><div class="task-main"><div class="task-title">${escapeHtml(t.title)}</div><div class="task-meta"><span class="tag">${escapeHtml(t.area)}</span><span>${escapeHtml(t.day)}</span><span>${t.minutes} min</span></div></div><button class="delete" aria-label="Aufgabe löschen" onclick="deleteTask(${t.id})">×</button></div>`}
+function renderTasks(){
+ const home=document.getElementById("homeTasks"); const pending=state.tasks.filter(t=>!t.done).slice(0,3);
+ home.innerHTML=pending.length?pending.map(taskHTML).join(""):`<div class="empty">Alles erledigt – gönn dir eine Pause oder wähle einen neuen kleinen Schritt. 🌿</div>`;
+ document.getElementById("allTasks").innerHTML=state.tasks.length?state.tasks.map(taskHTML).join(""):`<div class="empty">Noch keine Aufgaben. Füge oben eine hinzu.</div>`;
+ document.getElementById("taskCountLabel").textContent=state.tasks.length+" Aufgaben";
+ document.getElementById("focusDisplay").textContent=state.focus;
+ document.getElementById("focusInput").value=state.focus;
+ renderWeek();
+}
+function renderWeek(){
+ document.getElementById("weekdays").innerHTML=days.map(([d])=>`<button class="day ${state.selectedDay===d?"active":""}" onclick="selectDay('${d}')"><b>${d}</b>${state.tasks.filter(t=>t.day===d&&!t.done).length} offen</button>`).join("");
+ let tasks=state.tasks.filter(t=>t.day===state.selectedDay);
+ document.getElementById("dayTasks").innerHTML=tasks.length?tasks.map(taskHTML).join(""):`<div class="empty">Für ${state.selectedDay} ist noch nichts geplant. Lass den Tag frei oder füge eine Aufgabe hinzu.</div>`;
+}
+function renderStats(){
+ const done=state.tasks.filter(t=>t.done), mins=done.reduce((a,t)=>a+(Number(t.minutes)||0),0), pct=state.tasks.length?Math.round(done.length/state.tasks.length*100):0;
+ document.getElementById("doneCount").textContent=done.length;
+ document.getElementById("minutesCount").textContent=mins+" min";
+ document.getElementById("percentCount").textContent=pct+"%";
+ document.getElementById("bigProgress").style.width=pct+"%";
+ document.getElementById("progressText").textContent=`Du hast ${done.length} von ${state.tasks.length} Aufgaben erledigt und ungefähr ${mins} Minuten investiert. Jeder Schritt zählt.`;
+}
+function renderPaths(){
+ document.getElementById("learningPaths").innerHTML=state.paths.map((p,i)=>{let n=p.done.filter(Boolean).length;return `<div class="path-card"><div class="path-icon">${p.icon}</div><div class="path-content"><h3>${p.title}</h3><p>${p.desc}</p><div class="progress-track"><div class="progress-fill" style="width:${n/p.goals.length*100}%"></div></div><div class="task-meta">${n} von ${p.goals.length} Lernzielen</div><div class="path-goals">${p.goals.map((g,j)=>`<label class="goal"><input type="checkbox" ${p.done[j]?"checked":""} onchange="toggleGoal('${p.id}',${j},this.checked)" style="accent-color:var(--green);margin-top:2px"><span>${g}</span></label>`).join("")}</div></div></div>`}).join("");
+}
+function renderHabits(){const labels=["Eine kreative Übung gemacht","Etwas Neues gelernt","Mich bewegt oder getanzt","Zeit ohne Handy verbracht"];document.getElementById("habits").innerHTML=labels.map((x,i)=>`<label class="habit-row"><span>${x}</span><input type="checkbox" ${state.habits[i]?"checked":""} onchange="state.habits[${i}]=this.checked;save()"></label>`).join("")}
+function render(){renderTasks();renderPaths();renderHabits();renderStats();document.getElementById("projectStage").value=state.projectStage;document.getElementById("projectNotes").value=state.projectNotes;document.getElementById("reflection").value=state.reflection;document.getElementById("todayLabel").textContent=new Intl.DateTimeFormat("de-DE",{weekday:"long",day:"numeric",month:"long"}).format(new Date())}
+function toggleTask(id){let t=state.tasks.find(t=>t.id===id);if(t)t.done=!t.done;save();renderTasks();toast(t&&t.done?"Gut gemacht. Ein Schritt geschafft!":"Aufgabe wieder geöffnet.");}
+function deleteTask(id){state.tasks=state.tasks.filter(t=>t.id!==id);save();renderTasks();toast("Aufgabe entfernt.");}
+function selectDay(d){state.selectedDay=d;save();renderWeek()}
+function toggleGoal(id,j,val){let p=state.paths.find(p=>p.id===id);p.done[j]=val;save();renderPaths()}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.getElementById("view-"+b.dataset.view).classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}));
+document.getElementById("taskForm").addEventListener("submit",e=>{e.preventDefault();const title=document.getElementById("taskName").value.trim();if(!title)return;state.tasks.push({id:Date.now(),title,area:document.getElementById("taskArea").value,day:document.getElementById("taskDay").value,minutes:Math.max(5,Number(document.getElementById("taskMinutes").value)||30),done:false});save();renderTasks();e.target.reset();document.getElementById("taskMinutes").value=30;toast("Aufgabe hinzugefügt.");});
+document.getElementById("addTaskTop").onclick=()=>{document.querySelector('[data-view="tasks"]').click();document.getElementById("taskName").focus()};
+document.getElementById("editFocus").onclick=()=>{document.querySelector('[data-view="week"]').click();document.getElementById("focusInput").focus()};
+document.getElementById("saveFocus").onclick=()=>{state.focus=document.getElementById("focusInput").value.trim()||"Ein kleiner Schritt";save();renderTasks();toast("Wochenfokus gespeichert.")};
+document.getElementById("focusBtn").onclick=()=>{const mins=prompt("Wie lange möchtest du dich fokussieren? (15, 30, 45 oder 60 Minuten)","25");if(mins===null)return;const n=Number(mins);if(![15,25,30,45,60].includes(n)){toast("Wähle 15, 25, 30, 45 oder 60 Minuten.");return}const title=prompt("Woran möchtest du arbeiten?","Perspektivzeichnen");if(title&&title.trim()){state.tasks.push({id:Date.now(),title:title.trim(),area:"Fokus",day:"Flexibel",minutes:n,done:false});save();renderTasks();document.querySelector('[data-view="tasks"]').click();toast("Fokus als Aufgabe gespeichert. Starte deinen Timer auf dem Handy.")}};
+document.getElementById("saveProject").onclick=()=>{state.projectStage=document.getElementById("projectStage").value;state.projectNotes=document.getElementById("projectNotes").value;save();document.getElementById("projectSaved").textContent="Gespeichert ✓";toast("Projekt gespeichert.")};
+document.getElementById("saveReflection").onclick=()=>{state.reflection=document.getElementById("reflection").value;save();document.getElementById("reflectionStatus").textContent="Dein Rückblick ist gespeichert.";toast("Rückblick gespeichert.")};
+document.getElementById("copyReflection").onclick=async()=>{try{await navigator.clipboard.writeText(document.getElementById("reflection").value);document.getElementById("reflectionStatus").textContent="In die Zwischenablage kopiert."}catch(e){document.getElementById("reflectionStatus").textContent="Bitte markiere und kopiere den Text manuell."}};
+document.getElementById("exportData").onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="creative-growth-daten.json";a.click();URL.revokeObjectURL(a.href)};
+render();
+if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});
+</script>
+</body></html>
